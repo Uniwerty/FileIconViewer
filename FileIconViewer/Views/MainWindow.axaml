@@ -1,0 +1,70 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:FileIconViewer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:FileIconViewer.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FileIconViewer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="FileIconViewer"
+        Width="1500">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <DockPanel>
+        <ScrollViewer DockPanel.Dock="Left">
+            <ItemsControl ItemsSource="{Binding ExtensionSamplesList}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate x:DataType="models:ExtensionSample">
+                        <Button Margin="0"
+                                Width="150"
+                                FontSize="18"
+                                HorizontalContentAlignment="Center"
+                                Click="ExtensionSampleButton_OnClick"
+                                Content="{Binding Extension}" />
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </ScrollViewer>
+        <DockPanel Margin="10">
+            <StackPanel DockPanel.Dock="Top"
+                        Margin="0 10">
+                <TextBlock Margin="0 5"
+                           FontSize="24">
+                    Write a file path or extension:
+                </TextBlock>
+                <TextBox Margin="0 5"
+                         FontSize="24"
+                         Name="FilePathBox" />
+                <Button Margin="0 5"
+                        FontSize="24"
+                        Click="ShowIconButton_OnClick">
+                    Show icons
+                </Button>
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding IconSamplesList}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.DataTemplates>
+                    <DataTemplate x:DataType="models:IconSample">
+                        <StackPanel Margin="5 0">
+                            <TextBlock HorizontalAlignment="Center"
+                                       Text="{Binding Name}" />
+                            <Image Source="{Binding Icon}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </DockPanel>
+    </DockPanel>
+
+</Window>
